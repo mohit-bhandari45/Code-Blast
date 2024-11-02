@@ -19,8 +19,6 @@ model User{
   password String
   email String @unique
   salt String 
+  
   @@map("users")
 }
-
-
-
