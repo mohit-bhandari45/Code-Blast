@@ -10,6 +10,10 @@ app.get("/", (req, res) => {
   res.json({ msg: "Hello" });
 });
 
+app.post("/", (req, res) => {
+  res.json({ msg: "Hello Post" });
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server started on PORT:${process.env.PORT}`);
 });
