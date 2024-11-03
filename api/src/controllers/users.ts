@@ -2,6 +2,13 @@ import prismaClient from "../lib/db.js";
 import { Request, Response } from "express";
 import { createHmac, randomBytes } from "crypto";
 
+function generateHash(salt: string, password: string): string {
+  const hashedPassword = createHmac("sha256", salt)
+    .update(password)
+    .digest("hex");
+  return hashedPassword;
+}
+
 async function handleSignUp(req: Request, res: Response): Promise<any> {
   const { name, email, password } = req.body;
 
@@ -18,9 +25,7 @@ async function handleSignUp(req: Request, res: Response): Promise<any> {
     }
 
     const salt = randomBytes(16).toString("hex"); // Generating a salt
-    const hashedPassword = createHmac("sha256", salt)
-      .update(password)
-      .digest("hex");
+    const hashedPassword = generateHash(salt, password);
 
     await prismaClient.user.create({
       data: {
@@ -56,12 +61,10 @@ async function handleLogin(req: Request, res: Response): Promise<any> {
     const salt = user.salt; // Accessing salt only after confirming user exists
 
     // Hashing the provided password with the user's salt
-    const userProvidedHash = createHmac("sha256", salt)
-      .update(password)
-      .digest("hex");
+    const userProvidedPasswordHash = generateHash(salt, password);
 
     // Comparing hashes (assuming user has a hashed password in user.password)
-    if (userProvidedHash === user.password) {
+    if (userProvidedPasswordHash === user.password) {
       // Successful login, return success message only
       return res.status(200).json({ msg: "Login Successful" });
     } else {

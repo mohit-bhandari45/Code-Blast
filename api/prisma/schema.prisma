@@ -13,12 +13,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id String @id @default(uuid())
-  name String
-  password String
-  email String @unique
-  salt String 
-  
-  @@map("users")
+model User {
+  id           String       @id @default(uuid())
+  name     String       @unique
+  email        String       @unique
+  password     String       // Use a hashed password for security
+  salt         String 
+  contests     Contest[]    @relation("UserContests")
+  submissions  Submission[]
+  leaderboards Leaderboard[] // Added for the relation with Leaderboard
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Contest {
+  id           String       @id @default(uuid())
+  name         String
+  description  String?
+  startTime    DateTime
+  endTime      DateTime
+  problems     Problem[]    @relation("ContestProblems")
+  participants User[]       @relation("UserContests")  // Removed `references: [id]`
+  leaderboard  Leaderboard[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Problem {
+  id           String      @id @default(uuid())
+  title        String
+  description  String
+  difficulty   String      // e.g., "Easy", "Medium", "Hard"
+  inputFormat  String
+  outputFormat String
+  examples     String      // JSON or Text format for example cases
+  contestId    String
+  contest      Contest     @relation(fields: [contestId], references: [id])
+  submissions  Submission[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Submission {
+  id           String     @id @default(uuid())
+  code         String     // Code submitted by the user
+  language     String     // Language in which the code is written, e.g., "Python", "JavaScript"
+  status       String     // "Accepted", "Wrong Answer", "Runtime Error", etc.
+  submittedAt  DateTime   @default(now())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  problemId    String
+  problem      Problem    @relation(fields: [problemId], references: [id])
+  score        Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Leaderboard {
+  id          String      @id @default(uuid())
+  contestId   String
+  contest     Contest     @relation(fields: [contestId], references: [id])
+  userId      String
+  user        User        @relation(fields: [userId], references: [id]) // Fixed relation
+  score       Int         // Total score for the contest
+  rank        Int?
+  updatedAt   DateTime    @default(now())
 }
