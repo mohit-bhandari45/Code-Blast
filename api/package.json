@@ -33,7 +33,9 @@
   "dependencies": {
     "@prisma/client": "^5.21.1",
     "@types/express": "^5.0.0",
+    "@types/redis": "^4.0.10",
     "express": "^4.21.1",
+    "redis": "^4.7.0",
     "tsc-watch": "^6.2.0"
   }
 }

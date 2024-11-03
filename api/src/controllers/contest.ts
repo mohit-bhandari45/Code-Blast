@@ -2,8 +2,21 @@ import { Request, Response } from "express";
 import prismaClient from "../lib/db.js";
 
 async function handleListContest(req: Request, res: Response): Promise<any> {
-  const contests = await prismaClient.contest.findMany();
-  return res.status(200).json({ contests: contests });
+  try {
+    // Fetch contests along with associated problem IDs
+    const contests = await prismaClient.contest.findMany({
+      include: {
+        problems: true,
+      },
+    });
+
+    return res.status(200).json({ contests });
+  } catch (error) {
+    console.error("Error fetching contests:", error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while fetching contests." });
+  }
 }
 
 async function handleCreateContest(req: Request, res: Response): Promise<any> {
@@ -31,7 +44,7 @@ async function handleCreateContest(req: Request, res: Response): Promise<any> {
     });
 
     // Respond with the created contest
-    return res.status(201).json(newContest);
+    return res.status(201).json(newContest.id);
   } catch (error) {
     console.error(error);
     return res

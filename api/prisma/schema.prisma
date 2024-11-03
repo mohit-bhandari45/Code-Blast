@@ -32,8 +32,8 @@ model Contest {
   description  String?
   startTime    DateTime
   endTime      DateTime
-  problems     Problem[]    @relation("ContestProblems")
-  participants User[]       @relation("UserContests")  // Removed `references: [id]`
+  problems     Problem[]    @relation("ContestProblems") // Define the relation name here
+  participants User[]       @relation("UserContests")  
   leaderboard  Leaderboard[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -47,8 +47,8 @@ model Problem {
   inputFormat  String
   outputFormat String
   examples     String      // JSON or Text format for example cases
-  contestId    String
-  contest      Contest     @relation(fields: [contestId], references: [id])
+  contestId    String?     // Optional field
+  contest      Contest?    @relation("ContestProblems", fields: [contestId], references: [id]) // Optional relation
   submissions  Submission[]
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
