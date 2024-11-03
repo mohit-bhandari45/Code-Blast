@@ -1,15 +1,15 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { RedisManager } from '../RedisManager';
+import { Router, Request, Response, NextFunction } from "express";
+import { RedisManager } from "../RedisManager";
 
 const submissionRoute = Router();
 
 // Middleware to handle async errors
-const asyncHandler = (fn: Function) => 
-  (req: Request, res: Response, next: NextFunction) => 
+const asyncHandler =
+  (fn: Function) => (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
 submissionRoute.post(
-  "/", 
+  "/",
   asyncHandler(async (req: Request, res: Response) => {
     const { body } = req; // Ensure `body` is available through middleware
 
@@ -28,7 +28,7 @@ submissionRoute.post(
       console.error("Redis operation failed:", error);
       res.status(500).json({ error: "Internal server error" });
     }
-  })
+  }),
 );
 
 export default submissionRoute;
