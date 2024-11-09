@@ -1,6 +1,7 @@
 import prismaClient from "../lib/db.js";
 import { Request, Response } from "express";
 import { createHmac, randomBytes } from "crypto";
+import { generateToken } from "../services/auth.js";
 
 function generateHash(salt: string, password: string): string {
   const hashedPassword = createHmac("sha256", salt)
@@ -65,8 +66,13 @@ async function handleLogin(req: Request, res: Response): Promise<any> {
 
     // Comparing hashes (assuming user has a hashed password in user.password)
     if (userProvidedPasswordHash === user.password) {
-      // Successful login, return success message only
-      return res.status(200).json({ msg: "Login Successful" });
+      // Successful login, return jwttoken
+      const payload = {
+        id: user.id,
+        email: user.email,
+      };
+      const token = generateToken(payload);
+      return res.status(200).json({ token });
     } else {
       return res.status(401).json({ msg: "Invalid credentials" });
     }

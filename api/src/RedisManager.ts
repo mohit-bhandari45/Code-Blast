@@ -13,7 +13,7 @@ export class RedisManager {
     this.publisher.connect();
   }
 
-  public static getInstance() {
+  public static getInstance(): RedisManager {
     if (!this.instance) {
       this.instance = new RedisManager();
     }
