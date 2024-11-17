@@ -13,48 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Dificulty{
+  Easy
+  Medium
+  Hard
+}
+
 model User {
-  id           String       @id @default(uuid())
-  name     String       @unique
-  email        String       @unique
-  password     String       // Use a hashed password for security
-  salt         String 
-  contests     Contest[]    @relation("UserContests")
-  submissions  Submission[]
-  leaderboards Leaderboard[] // Added for the relation with Leaderboard
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            String       @id @default(uuid())
+  name          String       @unique
+  email         String       @unique
+  password      String       // Use a hashed password for security
+  salt          String 
+  contests      Contest[]    @relation("UserContests")
+  participation Contest[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
-model Problem{
-  id String @id @default(uuid())
-  title String
-  description String
-  difficulty Dificulty @relation("ProblemDificulty",fields:[dificultyId],references:[id])
-  dificultyId String
-  tags Tag[] @relation("ProblemTags")
-  testCases   TestCase[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Dificulty{
-  id String @id @default(uuid())
-  level String @unique
-  problems Problem[] @relation("ProblemDificulty")
-}
-
-model Tag {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  problems Problem[] @relation("ProblemTags")
-}
-
-model TestCase{
-  id String @id @default(uuid())
-  input String
-  output String
-  isSample   Boolean  @default(false)
-  problem Problem  @relation(fields: [problemId], references: [id])
-  problemId String
+model Contest{
+  id              String    @id @default(uuid())
+  title           String
+  description     String?
+  createdBy       User      @relation("UserContests",fields:[createdById],references:[id])
+  createdById     String
+  participants    User[]
+  startTime       DateTime
+  duration        Int
+  createdAt       DateTime  @default(now()) // Auto-generated timestamp for when the contest is created
+  updatedAt       DateTime  @updatedAt
 }

@@ -1,4 +1,5 @@
 import JWT from "jsonwebtoken";
+import CustomJwtPayload from "../types/types.js";
 
 interface UserInterface {
   id: string;
@@ -12,9 +13,9 @@ function generateToken(user: UserInterface): string {
   return token;
 }
 
-function decodeToken(token: string): string | JWT.JwtPayload {
+function decodeToken(token: string): CustomJwtPayload {
   const user = JWT.verify(token, secret);
-  return user;
+  return user as CustomJwtPayload;
 }
 
 export { generateToken, decodeToken };

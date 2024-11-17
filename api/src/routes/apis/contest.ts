@@ -2,7 +2,7 @@ import express from "express";
 import {
   handleCreateContest,
   handleListContest,
-} from "../controllers/contest.js";
+} from "../../controllers/contest.js";
 
 const router = express.Router();
 
