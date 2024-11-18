@@ -14,6 +14,21 @@ jobs:
     build:
         runs-on: ubuntu-latest
 
+        services:
+            postgres:
+                image: postgres:latest
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: codeBlast
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd="pg_isready -U postgres"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=3
+
         steps:
             - uses: actions/checkout@v2
               name: Checkout Repository
@@ -24,12 +39,12 @@ jobs:
                 node-version: 18.x
 
             - name: Install Dependencies
-              run: yarn install
+              run: npm install
 
             - name: Run Builder
               env:
-                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-              run: yarn build
+                  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/codeBlast
+              run: npm run build
 
     linter:
         runs-on: ubuntu-latest
@@ -44,9 +59,9 @@ jobs:
                 node-version: 18.x
 
             - name: Install Dependencies
-              run: yarn install
+              run: npm install
 
             - name: Run Linter
               env:
-                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-              run: yarn lint
+                  DATABASE_URL: postgresql://postgres:password@localhost:5432/codeBlast
+              run: npm run lint
