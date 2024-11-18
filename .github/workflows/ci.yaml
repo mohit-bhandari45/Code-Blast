@@ -4,6 +4,7 @@ on:
     pull_request:
         branches:
             - main
+    workflow_dispatch:
 
 defaults:
     run:
@@ -52,7 +53,7 @@ jobs:
             run: npx prisma migrate dev
     
           - name: Build project
-            run: npm build
+            run: npm run build
 
     linter:
         runs-on: ubuntu-latest
@@ -65,4 +66,4 @@ jobs:
               run: npm install
             
             - name: Run Linter
-              run: npm lint  
+              run: npm run lint  
