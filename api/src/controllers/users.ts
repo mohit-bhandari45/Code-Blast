@@ -4,6 +4,7 @@ import { createHmac, randomBytes } from "crypto";
 import { generateToken } from "../services/auth.js";
 
 ///Adding a comment
+//also another one
 
 function generateHash(salt: string, password: string): string {
   const hashedPassword = createHmac("sha256", salt)
