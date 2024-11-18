@@ -1,0 +1,38 @@
+name: Integration Workflow
+
+on:
+    pull_request:
+        branches:
+            - main
+
+defaults:
+    run:
+        shell: bash
+        working-directory: ./api
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+              name: Checkout Repository
+            
+            - name: "Install Dependencies"
+              run: yarn install
+            
+            - name: "Run Builder"
+              run: yarn build
+
+    linter:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+              name: Checkout Repository
+
+            - name: "Install Dependencies"
+              run: yarn install
+            
+            - name: "Run Linter"
+              run: yarn lint  
