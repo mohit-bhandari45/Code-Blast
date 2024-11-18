@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import { createHmac, randomBytes } from "crypto";
 import { generateToken } from "../services/auth.js";
 
+///Adding a comment
+
 function generateHash(salt: string, password: string): string {
   const hashedPassword = createHmac("sha256", salt)
     .update(password)
