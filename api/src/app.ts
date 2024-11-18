@@ -2,6 +2,9 @@ import express from "express";
 import authRoutes from "./routes/auth.js";
 import apiRoutes from "./routes/apis/index.js";
 
+
+//comment adding
+
 const app = express();
 
 app.use(express.json());
