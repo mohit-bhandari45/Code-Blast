@@ -36,10 +36,10 @@ jobs:
           - name: Set up Node.js
             uses: actions/setup-node@v3
             with:
-              node-version: 16
+              node-version: 18.x
     
           - name: Install dependencies
-            run: yarn install
+            run: npm install
     
           - name: Set environment variables
             env:
@@ -52,7 +52,7 @@ jobs:
             run: npx prisma migrate dev
     
           - name: Build project
-            run: yarn build
+            run: npm build
 
     linter:
         runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
               name: Checkout Repository
 
             - name: Install Dependencies
-              run: yarn install
+              run: npm install
             
             - name: Run Linter
-              run: yarn lint  
+              run: npm lint  
