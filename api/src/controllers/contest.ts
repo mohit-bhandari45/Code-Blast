@@ -54,4 +54,3 @@ async function handleCreateContest(req: Request, res: Response): Promise<any> {
 }
 
 export { handleCreateContest, handleListContest };
-
