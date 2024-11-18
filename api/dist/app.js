@@ -6,6 +6,6 @@ app.use(express.json());
 app.use("/api", apiRoutes);
 app.use("/auth", authRoutes);
 app.get("/", (req, res) => {
-  res.json({ msg: "Hello" });
+    res.json({ msg: "Hello" });
 });
 export default app;
