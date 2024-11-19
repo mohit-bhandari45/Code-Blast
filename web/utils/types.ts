@@ -1,12 +1,10 @@
-interface LoginFormData {
+export interface LoginFormData {
     email: string;
     password: string;
 }
 
-interface SignUpFormData {
+export interface SignUpFormData {
     name: string,
     email: string;
     password: string;
 }
-
-export type { LoginFormData, SignUpFormData }
