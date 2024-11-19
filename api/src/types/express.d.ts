@@ -1,4 +1,3 @@
-import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken"; // Adjust this according to your JWT payload type.
 
 declare global {

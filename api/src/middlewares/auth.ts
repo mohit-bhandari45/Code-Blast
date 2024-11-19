@@ -1,7 +1,6 @@
 import CustomJwtPayload from "../types/types.js";
 import { decodeToken } from "../services/auth.js";
 import { Request, Response, NextFunction } from "express";
-import JWT from "jsonwebtoken";
 
 async function checkForAuthentication(
   req: Request,
