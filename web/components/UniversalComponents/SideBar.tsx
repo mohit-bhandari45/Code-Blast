@@ -1,7 +1,14 @@
 import Image from 'next/image';
 import React from 'react';
 
-const SideBar = () => {
+interface SideBarProps {
+  title: string;
+  para: string;
+  quote: string;
+  author: string;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ title, para, quote, author }) => {
   return (
     <div className="hidden md:flex md:w-1/2 relative bg-black">
       <div className="absolute inset-0 bg-black/60 z-10" />
@@ -15,16 +22,16 @@ const SideBar = () => {
       />
       <div className="relative z-20 p-12 flex flex-col justify-between h-full text-white">
         <div>
-          <h1 className="text-3xl font-bold">Welcome Back</h1>
+          <h1 className="text-3xl font-bold">{title}</h1>
           <p className="mt-4 text-gray-300 max-w-md">
-            Login to access your account and continue your journey with us.
+            {para}
           </p>
         </div>
         <div className="space-y-4">
           <p className="text-sm text-gray-300">
-            &quot;The best investment you can make is in yourself.&quot;
+            {quote}
           </p>
-          <p className="font-medium">- Warren Buffett</p>
+          <p className="font-medium">- {author}</p>
         </div>
       </div>
     </div>

@@ -45,4 +45,25 @@ const steps = [
     },
 ];
 
-export { features, steps };
+interface Data {
+    title: string;
+    para: string;
+    quote: string;
+    author: string;
+}
+
+const LoginPageData: Data = {
+    title: "Welcome Back",
+    para: "Login to access your account and continue your journey with us.",
+    quote: "The best investment you can make is in yourself.",
+    author: "Warren Buffett"
+}
+
+const SignUpPageData: Data = {
+    title: "Join Us",
+    para: "Start your journey with us today and explore endless possibilities.",
+    quote: "The future belongs to those who believe in the beauty of their dreams.",
+    author: "Eleanor Roosevelt"
+}
+
+export { features, steps, SignUpPageData, LoginPageData };

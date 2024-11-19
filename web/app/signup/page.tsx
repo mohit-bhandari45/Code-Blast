@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import SignUp from '@/components/SignUpPageComponents/SignUp';
 import SideBar from '@/components/UniversalComponents/SideBar';
-import Login from '@/components/LoginPageComponents/Login';
-import { LoginFormData } from '@/utils/types';
-import { LoginPageData } from '@/utils/utils';
+import { SignUpPageData } from '@/utils/utils';
+import { SignUpFormData } from '@/utils/types';
+import React, { useState } from 'react';
 
-const LoginPage = () => {
+export default function SignupPage() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [formData, setFormData] = useState<LoginFormData>({
+  const [formData, setFormData] = useState<SignUpFormData>({
+    name: '',
     email: '',
     password: '',
   });
@@ -21,23 +22,24 @@ const LoginPage = () => {
     setIsLoading(false);
     console.log('Form submitted:', formData);
     setFormData({
+      name: '',
       email: '',
       password: '',
     });
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col md:flex-row">
-      {/* Left Section - Image */}
+    <div className="flex min-h-screen">
+      {/* Left Section with Image */}
       <SideBar
-        title={LoginPageData.title}
-        para={LoginPageData.para}
-        quote={LoginPageData.quote}
-        author={LoginPageData.author}
+        title={SignUpPageData.title}
+        para={SignUpPageData.para}
+        quote={SignUpPageData.quote}
+        author={SignUpPageData.author}
       />
 
-      {/* Right Section - Login Form */}
-      <Login
+      {/* Right Section with Form */}
+      <SignUp
         formData={formData}
         isLoading={isLoading}
         setFormData={setFormData}
@@ -45,6 +47,4 @@ const LoginPage = () => {
       />
     </div>
   );
-};
-
-export default LoginPage;
+}

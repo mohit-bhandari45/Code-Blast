@@ -1,4 +1,5 @@
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 const HeroSection = () => {
   return (
@@ -10,9 +11,11 @@ const HeroSection = () => {
         Challenge your friends and developers across the globe in real-time
         coding duels!
       </p>
-      <Button className="bg-white text-black border-2 border-black hover:bg-gray-300 px-6 py-3">
-        Start a Duel
-      </Button>
+      <Link href={'/signup'}>
+        <Button className="bg-white text-black border-2 border-black hover:bg-gray-300 px-6 py-3">
+          Start a Duel
+        </Button>
+      </Link>
     </section>
   );
 };

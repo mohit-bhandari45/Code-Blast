@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { steps } from '@/utils/utils';
+import Link from 'next/link';
 
 const HowItWorksSection = () => {
   return (
@@ -48,13 +49,15 @@ const HowItWorksSection = () => {
         </div>
 
         <div className="flex justify-center mt-20 mb-4">
-          <Button
-            variant="outline"
-            className="bg-white text-black hover:bg-white/90 hover:text-black 
+          <Link href={'/signup'}>
+            <Button
+              variant="outline"
+              className="bg-white text-black hover:bg-white/90 hover:text-black 
               border-white/20 transition-colors duration-300 px-8 py-3 text-base"
-          >
-            Get Started
-          </Button>
+            >
+              Get Started
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
