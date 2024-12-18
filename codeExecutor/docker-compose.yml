@@ -1,27 +1,53 @@
-version: '3.8' # Use the latest version of Docker Compose if possible
+version: "2"
+
+x-logging: &default-logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 100m
+
 services:
-  judge0:
-    image: judge0/judge0:latest
+  server:
+    image: judge0/judge0:1.13.0
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
     ports:
-      - "2358:2358" # Expose Judge0 to the host
-    environment:
-      DATABASE_URL: postgres://user:password@db:5432/judge0 # Use service name 'db'
-      REDIS_HOST: redis
-    depends_on:
-      - db
-      - redis
+      - "2358:2358"
+    privileged: true
+    <<: *default-logging
+    restart: always
+
+  workers:
+    image: judge0/judge0:1.13.0
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    privileged: true
+    <<: *default-logging
+    restart: always
 
   db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: judge0
+    image: postgres:13.0
+    env_file: judge0.conf
     volumes:
-      - judge0-db-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data/
+    <<: *default-logging
+    restart: always
 
   redis:
-    image: redis:6 # Redis uses its default ports internally; no need to expose to the host
+    image: redis:6.0
+    command:
+      [
+        "bash",
+        "-c",
+        'docker-entrypoint.sh --appendonly yes --requirepass "$$REDIS_PASSWORD"',
+      ]
+    env_file: judge0.conf
+    volumes:
+      - redis-data:/data
+    <<: *default-logging
+    restart: always
 
 volumes:
-  judge0-db-data:
+  postgres-data:
+  redis-data:
