@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // or any version you need
+    "module": "ES6", // or "ESNext"
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["src/*"] // Adjust according to your folder structure
+    }
+  },
+  "include": ["src/**/*"], // Adjust according to your source folder
+  "exclude": ["node_modules"]
+}

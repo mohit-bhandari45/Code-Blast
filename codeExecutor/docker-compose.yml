@@ -1,0 +1,27 @@
+version: '3.8' # Use the latest version of Docker Compose if possible
+services:
+  judge0:
+    image: judge0/judge0:latest
+    ports:
+      - "2358:2358" # Expose Judge0 to the host
+    environment:
+      DATABASE_URL: postgres://user:password@db:5432/judge0 # Use service name 'db'
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: judge0
+    volumes:
+      - judge0-db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6 # Redis uses its default ports internally; no need to expose to the host
+
+volumes:
+  judge0-db-data:
